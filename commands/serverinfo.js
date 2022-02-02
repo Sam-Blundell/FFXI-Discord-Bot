@@ -6,7 +6,10 @@ module.exports = {
 		.setDescription('Display information about the server'),
 	async execute(interaction) {
 
-		const { name, memberCount } = interaction.guild;
+		const {
+			name = 'namenotfound',
+			memberCount = 'countnotfound' 
+		} = interaction.guild;
 
 		await interaction.reply(
 			`Server name: ${name}\nTotal members: ${memberCount}.`

@@ -5,7 +5,12 @@ module.exports = {
 		.setName('userinfo')
 		.setDescription('displays information about the user'),
 	async execute(interaction) {
-		const { tag, id } = interaction.user;
+
+		const {
+			tag = 'tagnotfound',
+			id = 'idnotfound'
+		} = interaction.user;
+		
 		await interaction.reply(`User tag: ${tag}\nUser id: ${id}`);
 	}
 };
