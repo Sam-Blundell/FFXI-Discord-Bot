@@ -2,13 +2,17 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 
+// instantiate new Client object
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// add a Collection to the new client
 client.commands = new Collection();
 
+// read the commands list by parsing the commands folder
 const commandFiles = fs.readdirSync('./commands')
 	.filter(file => file.endsWith('.js'));
 
+// add all the commands to the collection on the client
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	// Set a new item in the Collection
@@ -17,10 +21,22 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', () => {
-	console.log('Ready!');
-});
+// read the events list by parsing the events folder
+const eventFiles = fs.readdirSync('./events')
+	.filter(file => file.endsWith('.js'));
 
+// create an event listener for all events in the folder
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
+
+// Listen for interactions, fire the appropriate event or handle
+// the appropriate error
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
@@ -39,7 +55,7 @@ client.on('interactionCreate', async interaction => {
 			}
 		);
 	}
-
 });
 
+// Start the bot
 client.login(token);
