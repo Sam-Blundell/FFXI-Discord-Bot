@@ -37,6 +37,10 @@
         "max-len": [
             "error",
             { "code": 80 }
-        ]
+        ],
+		"object-curly-spacing": [
+			"error",
+			"always"
+		]
     }
 }
