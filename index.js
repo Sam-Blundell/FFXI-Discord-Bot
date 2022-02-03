@@ -3,7 +3,14 @@ const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 
 // instantiate new Client object
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({
+	intents: [
+		Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_PRESENCES,
+		// Intents.FLAGS.GUILD_MEMBERS,
+		// Intents.FLAGS.GUILD_MESSAGES
+	] 
+});
 
 // add a Collection to the new client
 client.commands = new Collection();
