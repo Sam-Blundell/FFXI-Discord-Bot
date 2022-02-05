@@ -1,12 +1,14 @@
 const axios = require('axios');
+const { xivApiToken } = require('./xivapiconfig.json');
 
 const xivApi = axios.create({
-	baseUrl: 'https://xivapi.com/'
+	baseURL: 'https://xivapi.com/'
 });
 
 const getCharacter = (name, server) => {
-	return xivApi.get('character', {
+	return xivApi.get('character/search', {
 		params: {
+			private_key: xivApiToken,
 			name: name,
 			server: server
 		}
