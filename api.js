@@ -12,7 +12,10 @@ const getCharacter = (name, server) => {
 			name: name,
 			server: server
 		}
-	});
+	})
+		.then(({ data }) => {
+			return data.Results[0];
+		});
 };
 
-module.exports = getCharacter;
+module.exports = { getCharacter };
