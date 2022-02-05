@@ -1,5 +1,7 @@
-const getCharacter = require('../api.js');
+const { getCharacter } = require('../api.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed } = require('discord.js');
+const { newbie } = require('../roles.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,6 +15,14 @@ module.exports = {
 			.setRequired(true)),
 	async execute(interaction) {
 
+
+		if (!interaction.member.roles.cache.has(newbie)) {
+			await interaction.reply(
+				'Only new people can use this command'
+			);
+			return;
+		}
+
 		const newNick = interaction.options.getString('nickname');
 		const server = interaction.options.getString('server');
 
@@ -23,10 +33,38 @@ module.exports = {
 			})
 			.then((data) => {
 				if (!data) {
-					interaction.reply(
-						`The character ${newNick} doesn't exist on ${server}`
-					);
+					const nickFailEmbed = new MessageEmbed()
+						.setColor('#d40000')
+						.setTitle('Authentication failure')
+						.setAuthor({
+							name: 'Augur',
+							iconURL: 'https://i.imgur.com/KpGs20S.jpeg'
+						})
+						.setDescription(
+							`${newNick} not found on server: ${server}`
+						)
+						.setTimestamp()
+						.setFooter({
+							text: 'All information sourced from lodestone'
+						});
+					interaction.reply({ embeds: [nickFailEmbed] });
 				} else {
+					const newNickEmbed = new MessageEmbed()
+						.setColor('#02d642')
+						.setTitle('Authentication success')
+						.setAuthor({
+							name: 'Augur',
+							iconURL: 'https://i.imgur.com/KpGs20S.jpeg'
+						})
+						.setDescription(
+							`${newNick} found on server: ${server}`
+						)
+						.setImage(data.Avatar)
+						.setTimestamp()
+						.setFooter({
+							text: 'All information sourced from lodestone'
+						});
+					interaction.reply({ embeds: [newNickEmbed] });
 					interaction.reply(
 						`Setting your nickname to ${newNick}...`
 					);
