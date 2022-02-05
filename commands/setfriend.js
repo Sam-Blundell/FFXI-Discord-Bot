@@ -6,7 +6,7 @@ module.exports = {
 		.setName('rolesetfriend')
 		.setDescription('Assigns the user the server role of friend'),
 	async execute(interaction) {
-		
+
 		if (!interaction.member.roles.cache.has(newbie)) {
 			await interaction.reply(
 				'Only new people can use this command'
