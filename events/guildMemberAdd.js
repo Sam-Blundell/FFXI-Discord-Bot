@@ -16,13 +16,17 @@ module.exports = {
 			.setTitle(`Hi ${interaction.user.username}! Welcome to the server.`)
 			.setAuthor({
 				name: 'Augur',
-				iconURL: 'https://i.imgur.com/KpGs20S.jpeg'
+				iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+				url: null
 			})
 			.setDescription(dscr1 + dscr2 + dscr3 + dscr4)
 			.setTimestamp();
 
 		await interaction.guild.channels.cache.get(newbiechannel)
-			.send({ embeds: [newMemberJoin] });
+			.send({
+				content: null,
+				embeds: [newMemberJoin]
+			});
 
 		const newbieRole = await interaction.guild.roles.cache
 			.get(newbie);
