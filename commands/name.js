@@ -22,7 +22,10 @@ module.exports = {
 				.setColor('#d40000')
 				.setTitle('Only new members can use this command')
 				.setTimestamp();
-			await interaction.reply({ embeds: [notNewUserEmbed] });
+			await interaction.reply({
+				content: null,
+				embeds: [notNewUserEmbed] 
+			});
 			return;
 		}
 		
@@ -36,7 +39,10 @@ module.exports = {
 				.setColor('#d40000')
 				.setTitle(`Invalid server name: ${serverArg}`)
 				.setTimestamp();
-			await interaction.reply({ embeds: [unknownServerEmbed] });
+			await interaction.reply({
+				content: null,
+				embeds: [unknownServerEmbed]
+			});
 			return;
 		}
 
@@ -51,16 +57,21 @@ module.exports = {
 						.setTitle('Authentication failure')
 						.setAuthor({
 							name: 'Augur',
-							iconURL: 'https://i.imgur.com/KpGs20S.jpeg'
+							iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+							url: null
 						})
 						.setDescription(
 							`${newNick} not found on server: ${server}`
 						)
 						.setTimestamp()
 						.setFooter({
-							text: 'All information sourced from lodestone'
+							text: 'All information sourced from lodestone',
+							iconURL: null
 						});
-					interaction.reply({ embeds: [nickFailEmbed] });
+					interaction.reply({
+						content: null,
+						embeds: [nickFailEmbed]
+					});
 				} else {
 					const newNickEmbed = new MessageEmbed()
 						.setColor('#02d642')
