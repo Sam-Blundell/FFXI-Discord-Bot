@@ -2,11 +2,12 @@ const { getCharacter } = require('../api.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { newbie } = require('../roles.json');
+const serverCaseCheck = require('../utils/serverCaseCheck.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('setgamenickname')
-		.setDescription('Checks lodestone and sets your discord nick')
+		.setName('name')
+		.setDescription('Checks lodestone and sets your discord nickname')
 		.addStringOption(option => option.setName('nickname')
 			.setDescription('your in-game username')
 			.setRequired(true))
@@ -22,9 +23,20 @@ module.exports = {
 			);
 			return;
 		}
-
+		
 		const newNick = interaction.options.getString('nickname');
-		const server = interaction.options.getString('server');
+		const serverArg = interaction.options.getString('server');
+
+		const server = serverCaseCheck(serverArg);
+
+		if (!server) {
+			const unknownServerEmbed = new MessageEmbed()
+				.setColor('#d40000')
+				.setTitle(`Invalid server name: ${serverArg}`)
+				.setTimestamp();
+			await interaction.reply({ embeds: [unknownServerEmbed] });
+			return;
+		}
 
 		await getCharacter(newNick, server)
 			.then((data) => {
