@@ -16,7 +16,6 @@ module.exports = {
 			.setRequired(true)),
 	async execute(interaction) {
 
-
 		// TODO: change this to use the built in permission system.
 		if (!interaction.member.roles.cache.has(newbie)) {
 			const notNewUserEmbed = new MessageEmbed()
@@ -43,7 +42,6 @@ module.exports = {
 
 		await getCharacter(newNick, server)
 			.then((data) => {
-				console.log(data);
 				return data;
 			})
 			.then((data) => {
@@ -88,6 +86,5 @@ module.exports = {
 					interaction.member.setNickname(newNick);
 				}
 			});
-
 	}
 };
