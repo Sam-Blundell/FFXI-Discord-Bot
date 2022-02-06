@@ -17,10 +17,13 @@ module.exports = {
 	async execute(interaction) {
 
 
+		// TODO: change this to use the built in permission system.
 		if (!interaction.member.roles.cache.has(newbie)) {
-			await interaction.reply(
-				'Only new people can use this command'
-			);
+			const notNewUserEmbed = new MessageEmbed()
+				.setColor('#d40000')
+				.setTitle('Only new members can use this command')
+				.setTimestamp();
+			await interaction.reply({ embeds: [notNewUserEmbed] });
 			return;
 		}
 		
@@ -77,9 +80,6 @@ module.exports = {
 							text: 'All information sourced from lodestone'
 						});
 					interaction.reply({ embeds: [newNickEmbed] });
-					interaction.reply(
-						`Setting your nickname to ${newNick}...`
-					);
 					interaction.member.setNickname(newNick);
 				}
 			});
