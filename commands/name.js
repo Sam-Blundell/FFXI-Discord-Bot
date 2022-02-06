@@ -69,7 +69,8 @@ module.exports = {
 						.setTitle('Authentication success')
 						.setAuthor({
 							name: 'Augur',
-							iconURL: 'https://i.imgur.com/KpGs20S.jpeg'
+							iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+							url: null
 						})
 						.setDescription(
 							`${newNick} found on server: ${server}`
@@ -77,9 +78,13 @@ module.exports = {
 						.setImage(data.Avatar)
 						.setTimestamp()
 						.setFooter({
-							text: 'All information sourced from lodestone'
+							text: 'All information sourced from lodestone',
+							iconURL: null
 						});
-					interaction.reply({ embeds: [newNickEmbed] });
+					interaction.reply({
+						content: null,
+						embeds: [newNickEmbed]
+					});
 					interaction.member.setNickname(newNick);
 				}
 			});
