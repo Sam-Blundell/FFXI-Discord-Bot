@@ -2,13 +2,11 @@ const { newbie } = require('../roles.json');
 const { newbiechannel } = require('../channels.json');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
-
 module.exports = {
 	name: 'guildMemberUpdate',
 	async execute(oldMember, newMember) {
 
 		const usrNm = newMember.nickname;
-
 		const memberMsg = `Thanks ${usrNm}, `;
 		const memberMsg2 = 'so are you a member of Omen or just a friend?';
 		
@@ -26,10 +24,10 @@ module.exports = {
 						.setLabel('Friend')
 						.setStyle('SUCCESS')
 				);
-			
+
 			await newMember.guild.channels.cache.get(newbiechannel)
 				.send({
-					content: memberMsg + memberMsg2,
+					content: `${memberMsg}${memberMsg2}`,
 					components: [row]
 				});
 		}
