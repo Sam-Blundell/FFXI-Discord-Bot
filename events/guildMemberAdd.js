@@ -1,11 +1,11 @@
-const { newbie } = require('../roles.json');
-const { newbiechannel } = require('../channels.json');
+const { newbie } = require('../configs/roles.json');
+const { newbiechannel } = require('../configs/channels.json');
 const { MessageEmbed } = require('discord.js');
 
 const dscr1 = 'Please use the /name command to set your server ';
 const dscr2 = 'nickname to be the same as your in-game name. The command ';
 const dscr3 = 'uses two parameters, name & server.\nFor example:\n';
-const dscr4 = '/name [Adrian Adelbert] [Ravana]';
+const dscr4 = '/name Adrian Adelbert Ravana';
 
 module.exports = {
 	name: 'guildMemberAdd',

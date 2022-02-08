@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { xivApiToken } = require('./xivapiconfig.json');
+const { xivApiToken } = require('./configs/xivapiconfig.json');
 
 const xivApi = axios.create({
 	baseURL: 'https://xivapi.com/'

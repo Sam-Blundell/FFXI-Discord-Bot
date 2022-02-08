@@ -1,7 +1,7 @@
 const { getCharacter } = require('../api.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { newbie } = require('../roles.json');
+const { newbie } = require('../configs/roles.json');
 const serverCaseCheck = require('../utils/serverCaseCheck.js');
 
 module.exports = {

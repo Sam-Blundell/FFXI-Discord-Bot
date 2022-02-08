@@ -1,5 +1,5 @@
-const { newbie, member, friend } = require('../roles.json');
-const { generalchannel } = require('../channels.json');
+const { newbie, member, friend } = require('../configs/roles.json');
+const { generalchannel } = require('../configs/channels.json');
 
 module.exports = {
 	name: 'interactionCreate',
@@ -15,7 +15,6 @@ module.exports = {
 		}
 
 		const { customId, member: { nickname } } = interaction;
-		
 
 		if (
 			(customId === 'memberrole' || customId === 'friendrole')

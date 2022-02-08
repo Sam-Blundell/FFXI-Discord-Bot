@@ -1,5 +1,5 @@
-const { newbie } = require('../roles.json');
-const { newbiechannel } = require('../channels.json');
+const { newbie } = require('../configs/roles.json');
+const { newbiechannel } = require('../configs/channels.json');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
