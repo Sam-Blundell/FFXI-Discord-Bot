@@ -1,17 +1,202 @@
 {
     "env": {
         "browser": true,
-        "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "node": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "rules": {
+		"prefer-const": [
+            "error",
+            { "destructuring": "any" }
+        ],
+		"no-var": "error",
+        "no-new-object": "error",
+        "object-shorthand": [
+            "error",
+            "always",
+            { "avoidQuotes": true }
+        ],
+        "quote-props": [
+            "error",
+            "as-needed"
+        ],
+        "prefer-object-spread": "error",
+        "no-array-constructor": "error",
+        "array-callback-return": "error",
+        "prefer-destructuring": [
+            "error",
+            {
+                "array": true,
+                "object": true
+            }
+        ],
+        "prefer-template": "error",
+        "template-curly-spacing": [
+            "error",
+            "never"
+        ],
+        "no-eval": "error", 
+        "func-style": [
+            "error",
+            "expression"
+        ],
+        "wrap-iife": "error",
+        "no-loop-func": "error",
+        "prefer-rest-params": "error",
+        "default-param-last": "error",
+        "no-new-func": "error",
+        "space-before-function-paren": [
+            "error",
+            "always"
+        ],
+        "space-before-blocks": [
+            "error",
+            "always"
+        ],
+        "no-param-reassign": "error",
+        "prefer-spread": "error",
+        "function-paren-newline": [
+            "error",
+            "multiline"
+        ],
+        "prefer-arrow-callback": "error",
+        "arrow-spacing": "error",
+        "arrow-parens": [
+            "error",
+            "always"
+        ],
+        "arrow-body-style": [
+            "error",
+            "as-needed"
+        ],
+        "no-confusing-arrow": "error",
+        "implicit-arrow-linebreak": "error",
+        "no-useless-constructor": "error",
+        "class-methods-use-this": "error",
+        "no-duplicate-imports": "error",
+        "object-curly-newline": [
+            "error",
+            {
+                "ObjectExpression": { "minProperties": 4, "multiline": true, "consistent": true },
+                "ObjectPattern": { "minProperties": 4, "multiline": true, "consistent": true },
+                "ImportDeclaration": { "minProperties": 4, "multiline": true, "consistent": true },
+                "ExportDeclaration": { "minProperties": 4, "multiline": true, "consistent": true }
+            }
+        ],
+        "no-iterator": "error",
+        "dot-notation": "error",
+        "one-var": [
+            "error",
+            "never"
+        ],
+        "no-multi-assign": "error",
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "operator-linebreak": [
+            "error",
+            "none"
+        ],
+        "eqeqeq": [
+            "error",
+            "always"
+        ],
+        "no-nested-ternary": "error",
+        "no-unneeded-ternary": "error",
+        "no-mixed-operators": "error",
+        "nonblock-statement-body-position": "error",
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "no-else-return": "error",
+        "spaced-comment": [
+            "error",
+            "always"
+        ],
+        "keyword-spacing": "error",
+        "space-infix-ops": "error",
+        "eol-last": "error",
+        "newline-per-chained-call": [
+            "error",
+            {
+                "ignoreChainWithDepth": 2
+            }
+        ],
+        "no-whitespace-before-property": "error",
+        "padded-blocks": [
+            "error",
+            "never",
+            {
+                "allowSingleLineBlocks": true
+            }
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
+        ],
+        "space-in-parens": "off",
+        "array-bracket-spacing": "off",
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "block-spacing": "error",
+        "comma-spacing": "error",
+        "computed-property-spacing": "error",
+        "func-call-spacing": "error",
+        "key-spacing": "error",
+        "no-trailing-spaces": "error",
+        "comma-style": "error",
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "always-multiline"
+            }
+        ],
+        "no-new-wrappers": "error",
+        "radix": [
+            "error",
+            "always"
+        ],
+        "id-length": [
+            "error",
+            {
+                "min": 2,
+                "exceptions": ["i", "j"],
+                "properties": "never"
+            }
+        ],
+        "camelcase": "error",
+        "new-cap": "error",
+        "no-underscore-dangle": "off",
+        "max-len": [
+            "error",
+            { 
+                "code": 80,
+                "ignoreStrings": true
+            }
+        ],
         "indent": [
             "error",
-            "tab"
+            4
         ],
         "linebreak-style": [
             "error",
@@ -24,23 +209,6 @@
         "semi": [
             "error",
             "always"
-        ],
-        "no-var": "error",
-        "eqeqeq": [
-            "error",
-            "always"
-        ],
-        "max-depth": [
-            "error",
-            { "max": 4}
-        ],
-        "max-len": [
-            "error",
-            { "code": 80 }
-        ],
-		"object-curly-spacing": [
-			"error",
-			"always"
-		]
+        ]
     }
 }
