@@ -1,8 +1,8 @@
-const { newbie } = require('../configs/roles.json');
-const { newbiechannel } = require('../configs/channels.json');
-const { MessageActionRow, MessageButton } = require('discord.js');
+import { newbie } from '../configs/roles.json';
+import { newbiechannel } from '../configs/channels.json';
+import { MessageActionRow, MessageButton } from 'discord.js';
 
-module.exports = {
+export default {
     name: 'guildMemberUpdate',
     async execute (oldMember, newMember) {
         const usrNm = newMember.nickname;
