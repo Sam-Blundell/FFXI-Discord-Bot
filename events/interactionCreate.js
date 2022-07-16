@@ -1,7 +1,7 @@
-const { newbie, member, friend } = require('../configs/roles.json');
-const { generalchannel } = require('../configs/channels.json');
+import { newbie, member, friend } from '../configs/roles.json';
+import { generalchannel } from '../configs/channels.json';
 
-module.exports = {
+export default {
     name: 'interactionCreate',
     execute (interaction) {
         const {

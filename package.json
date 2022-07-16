@@ -2,6 +2,7 @@
   "name": "ffxidiscordbot",
   "version": "1.0.0",
   "description": "Custom bot to assign roles and check Lodestone records in a FFXI community discord server.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

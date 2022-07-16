@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { xivApiToken } = require('./configs/xivapiconfig.json');
+import axios from 'axios';
+import { xivApiToken } from './configs/xivapiconfig.json';
 
 const xivApi = axios.create({
     baseURL: 'https://xivapi.com/',
@@ -17,4 +17,4 @@ const getCharacter = (name, server) => {
         .then(({ data }) => data.Results[0]);
 };
 
-module.exports = { getCharacter };
+export { getCharacter };

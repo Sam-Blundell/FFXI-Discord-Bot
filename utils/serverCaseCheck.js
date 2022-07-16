@@ -99,4 +99,4 @@ const serverLookUp = {
 
 const serverCaseCheck = (serverName) => serverLookUp[serverName.toLowerCase()];
 
-module.exports = serverCaseCheck;
+export { serverCaseCheck };

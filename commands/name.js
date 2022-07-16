@@ -1,10 +1,10 @@
-const { getCharacter } = require('../api.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-const { newbie } = require('../configs/roles.json');
-const serverCaseCheck = require('../utils/serverCaseCheck.js');
+import { getCharacter } from '../api';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { MessageEmbed } from 'discord.js';
+import { newbie } from '../configs/roles.json';
+import { serverCaseCheck } from '../utils/serverCaseCheck';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('name')
         .setDescription('Checks lodestone and sets your discord nickname')
