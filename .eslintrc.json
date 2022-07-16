@@ -62,7 +62,7 @@
         "prefer-spread": "error",
         "function-paren-newline": [
             "error",
-            "multiline"
+            "multiline-arguments"
         ],
         "prefer-arrow-callback": "error",
         "arrow-spacing": "error",
@@ -103,7 +103,10 @@
         ],
         "operator-linebreak": [
             "error",
-            "none"
+            "before", 
+            { 
+                "overrides": { "=": "none" } 
+            }
         ],
         "eqeqeq": [
             "error",
@@ -191,7 +194,8 @@
             "error",
             { 
                 "code": 80,
-                "ignoreStrings": true
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
             }
         ],
         "indent": [
