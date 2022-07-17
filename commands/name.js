@@ -1,8 +1,9 @@
-import { getCharacter } from '../api';
+import { getCharacter } from '../api.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { MessageEmbed } from 'discord.js';
-import { newbie } from '../configs/roles.json';
-import { serverCaseCheck } from '../utils/serverCaseCheck';
+import { serverCaseCheck } from '../utils/serverCaseCheck.js';
+import rolesConfig from '../configs/rolesConfig.js';
+const { newbie } = rolesConfig;
 
 export default {
     data: new SlashCommandBuilder()

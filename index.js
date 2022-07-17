@@ -1,6 +1,8 @@
-import fs from 'fs';
 import { Client, Collection, Intents } from 'discord.js';
-import { token } from './configs/config.json';
+import commandFiles from './commands/index.js';
+import eventFiles from './events/index.js';
+import botConfig from './configs/botConfig.js';
+const { botToken } = botConfig;
 
 // instantiate new Client object
 const client = new Client({
@@ -12,38 +14,27 @@ const client = new Client({
     ],
 });
 
-// add a Collection to the new client
+// add a Collection to the new client for holding commands
 client.commands = new Collection();
 
-// read the commands list by parsing the commands folder
-const commandFiles = fs.readdirSync('./commands')
-    .filter((file) => file.endsWith('.js'));
+// add commands to the client collection with command
+// name as key and command module as value
+Object.values(commandFiles).forEach((commandFile) => {
+    client.commands.set(commandFile.data.name, commandFile);
+});
 
-// add all the commands to the collection on the client
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    // Set a new item in the Collection
-    // with the key as the command name
-    // and the value as the exported module
-    client.commands.set(command.data.name, command);
-}
-
-// read the events list by parsing the events folder
-const eventFiles = fs.readdirSync('./events')
-    .filter((file) => file.endsWith('.js'));
-
-// create an event listener for all events in the folder
-for (const file of eventFiles) {
-    const event = require(`./events/${file}`);
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+// create event listeners for all events
+// for (const eventFile of Object.values(eventFiles)) {
+Object.values(eventFiles).forEach((eventFile) => {
+    if (eventFile.once) {
+        client.once(eventFile.name, (...args) => eventFile.execute(...args));
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+        client.on(eventFile.name, (...args) => eventFile.execute(...args));
     }
-}
+});
 
-// Listen for interactions, fire the appropriate event or handle
-// the appropriate error
+// Listen for interactions, fire the appropriate event
+// or handle the appropriate error
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 
@@ -65,4 +56,4 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Start the bot
-client.login(token);
+client.login(botToken);

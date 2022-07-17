@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('userinfo')
         .setDescription('displays information about the user'),

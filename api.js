@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { xivApiToken } from './configs/xivapiconfig.json';
+import xivApiToken from './configs/xivApiConfig.js';
 
 const xivApi = axios.create({
     baseURL: 'https://xivapi.com/',

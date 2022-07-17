@@ -1,6 +1,8 @@
-import { newbie } from '../configs/roles.json';
-import { newbiechannel } from '../configs/channels.json';
 import { MessageActionRow, MessageButton } from 'discord.js';
+import rolesConfig from '../configs/rolesConfig.js';
+import channelsConfig from '../configs/channelsConfig.js';
+const { newbie } = rolesConfig;
+const { newbieChannel } = channelsConfig;
 
 export default {
     name: 'guildMemberUpdate',
@@ -21,7 +23,7 @@ export default {
                     .setStyle('SUCCESS'),
             );
 
-        await newMember.guild.channels.cache.get(newbiechannel)
+        await newMember.guild.channels.cache.get(newbieChannel)
             .send({
                 content: `Thanks ${usrNm}, so are you a member of Omen or just a friend?`,
                 components: [row],

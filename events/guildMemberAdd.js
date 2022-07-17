@@ -1,6 +1,8 @@
-import { newbie } from '../configs/roles.json';
-import { newbiechannel } from '../configs/channels.json';
 import { MessageEmbed } from 'discord.js';
+import rolesConfig from '../configs/rolesConfig.js';
+import channelsConfig from '../configs/channelsConfig.js';
+const { newbie } = rolesConfig;
+const { newbieChannel } = channelsConfig;
 
 export default {
     name: 'guildMemberAdd',
@@ -16,7 +18,7 @@ export default {
             .setDescription('Please use the /name command to set your server nickname to be the same as your in-game name. The command uses two parameters, name & server.\nFor example:\n/name Adrian Adelbert Ravana')
             .setTimestamp();
 
-        await interaction.guild.channels.cache.get(newbiechannel)
+        await interaction.guild.channels.cache.get(newbieChannel)
             .send({
                 content: null,
                 embeds: [newMemberJoin],
