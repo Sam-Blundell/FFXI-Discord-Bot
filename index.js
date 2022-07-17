@@ -4,7 +4,6 @@ import eventFiles from './events/index.js';
 import botConfig from './configs/botConfig.js';
 const { botToken } = botConfig;
 
-// instantiate new Client object
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -14,17 +13,15 @@ const client = new Client({
     ],
 });
 
-// add a Collection to the new client for holding commands
+// collection utility class from discord.js extends JS Map class
 client.commands = new Collection();
 
-// add commands to the client collection with command
-// name as key and command module as value
+// store imported commandfiles in new client Collection
 Object.values(commandFiles).forEach((commandFile) => {
     client.commands.set(commandFile.data.name, commandFile);
 });
 
-// create event listeners for all events
-// for (const eventFile of Object.values(eventFiles)) {
+// create event listeners for each imported eventFile
 Object.values(eventFiles).forEach((eventFile) => {
     if (eventFile.once) {
         client.once(eventFile.name, (...args) => eventFile.execute(...args));
@@ -55,5 +52,5 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-// Start the bot
+// Start point
 client.login(botToken);
