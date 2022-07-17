@@ -1,5 +1,7 @@
-import { newbie, member, friend } from '../configs/roles.json';
-import { generalchannel } from '../configs/channels.json';
+import rolesConfig from '../configs/rolesConfig.js';
+import channelsConfig from '../configs/channelsConfig.js';
+const { newbie, member, friend } = rolesConfig;
+const { generalChannel } = channelsConfig;
 
 export default {
     name: 'interactionCreate',
@@ -24,7 +26,7 @@ export default {
                 interaction.member.roles.remove(newbie);
                 interaction.member.roles.add(member);
 
-                interaction.guild.channels.cache.get(generalchannel)
+                interaction.guild.channels.cache.get(generalChannel)
                     .send({
                         content: `${nickname} has joined as a new member.`,
                     });
@@ -32,7 +34,7 @@ export default {
                 interaction.member.roles.remove(newbie);
                 interaction.member.roles.add(friend);
 
-                interaction.guild.channels.cache.get(generalchannel)
+                interaction.guild.channels.cache.get(generalChannel)
                     .send({
                         content: `${nickname} has joined as a new friend.`,
                     });

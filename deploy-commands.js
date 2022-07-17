@@ -1,18 +1,15 @@
-import fs from 'fs';
 import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types';
-import { token, clientId, guildId } from './configs/config.json';
+import { Routes } from 'discord-api-types/v10';
+import commandFiles from './commands/index.js';
+import botConfig from './configs/botConfig.js';
+const { botToken, clientId, guildId } = botConfig;
 
 const commands = [];
-const commandFiles = fs.readdirSync('./commands')
-    .filter((file) => file.endsWith('.js'));
+Object.values(commandFiles).forEach((commandFile) => {
+    commands.push(commandFile.data.toJSON());
+});
 
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    commands.push(command.data.toJSON());
-}
-
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST({ version: '10' }).setToken(botToken);
 
 rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
     .then(() => console.log('successfully registed application commands.'))
