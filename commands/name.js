@@ -76,7 +76,7 @@ export default {
                             url: null,
                         })
                         .setDescription(
-                            `${newNick} not found on server: ${server}`,
+                            `${newNick} found on server: ${server}`,
                         )
                         .setImage(data.Avatar)
                         .setTimestamp()
