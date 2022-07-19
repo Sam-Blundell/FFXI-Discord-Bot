@@ -46,7 +46,7 @@ export default {
         }
 
         await getCharacter(newNick, server)
-            .then((data) => {
+            .then(async (data) => {
                 if (!data) {
                     const nickFailEmbed = new MessageEmbed()
                         .setColor('#d40000')
@@ -62,7 +62,7 @@ export default {
                             text: 'All information sourced from lodestone',
                             iconURL: null,
                         });
-                    interaction.reply({
+                    await interaction.reply({
                         content: null,
                         embeds: [nickFailEmbed],
                     });
@@ -84,11 +84,11 @@ export default {
                             text: 'All information sourced from lodestone',
                             iconURL: null,
                         });
-                    interaction.reply({
+                    await interaction.reply({
                         content: null,
                         embeds: [newNickEmbed],
                     });
-                    interaction.member.setNickname(newNick);
+                    await interaction.member.setNickname(newNick);
                 }
             });
     },
