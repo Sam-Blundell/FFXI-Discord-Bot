@@ -13,6 +13,10 @@ const getCharacter = (name, server) => xivApi.get('character/search', {
         server,
     },
 })
-    .then(({ data }) => data.Results[0]);
+    .then(({ data }) => data.Results[0])
+    .catch((error) => {
+        console.error('Lodestone API error:\n', error);
+        return error;
+    });
 
 export { getCharacter };
