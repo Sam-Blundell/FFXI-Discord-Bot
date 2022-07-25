@@ -34,7 +34,6 @@ export default {
         const serverArg = interaction.options.getString('server');
 
         const server = serverCaseCheck(serverArg);
-
         if (!server) {
             const unknownServerEmbed = new MessageEmbed()
                 .setColor('#d40000')
@@ -89,7 +88,14 @@ export default {
                 content: null,
                 embeds: [newNickEmbed],
             });
-            await interaction.member.setNickname(newNick);
+            try {
+                await interaction.member.setNickname(newNick);
+            } catch (error) {
+                console.log(error);
+                await interaction.editReply({
+                    content: 'Error changing nickname, are you an admin?',
+                });
+            }
         }
     },
 };
