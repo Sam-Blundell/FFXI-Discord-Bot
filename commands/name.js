@@ -5,6 +5,8 @@ import { serverCaseCheck } from '../utils/serverCaseCheck.js';
 import rolesConfig from '../configs/rolesConfig.js';
 const { newbie } = rolesConfig;
 
+// TODO: add colour variables.
+
 export default {
     data: new SlashCommandBuilder()
         .setName('name')
@@ -32,7 +34,6 @@ export default {
         const serverArg = interaction.options.getString('server');
 
         const server = serverCaseCheck(serverArg);
-
         if (!server) {
             const unknownServerEmbed = new MessageEmbed()
                 .setColor('#d40000')
@@ -45,51 +46,56 @@ export default {
             return;
         }
 
-        await getCharacter(newNick, server)
-            .then(async (data) => {
-                if (!data) {
-                    const nickFailEmbed = new MessageEmbed()
-                        .setColor('#d40000')
-                        .setTitle('Authentication failure')
-                        .setAuthor({
-                            name: 'Augur',
-                            iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                            url: null,
-                        })
-                        .setDescription(`No ${newNick} on server: ${server}`)
-                        .setTimestamp()
-                        .setFooter({
-                            text: 'All information sourced from lodestone',
-                            iconURL: null,
-                        });
-                    await interaction.reply({
-                        content: null,
-                        embeds: [nickFailEmbed],
-                    });
-                } else {
-                    const newNickEmbed = new MessageEmbed()
-                        .setColor('#02d642')
-                        .setTitle('Authentication success')
-                        .setAuthor({
-                            name: 'Augur',
-                            iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                            url: null,
-                        })
-                        .setDescription(
-                            `${newNick} found on server: ${server}`,
-                        )
-                        .setImage(data.Avatar)
-                        .setTimestamp()
-                        .setFooter({
-                            text: 'All information sourced from lodestone',
-                            iconURL: null,
-                        });
-                    await interaction.reply({
-                        content: null,
-                        embeds: [newNickEmbed],
-                    });
-                    await interaction.member.setNickname(newNick);
-                }
+        const charData = await getCharacter(newNick, server);
+        if (!charData) {
+            const nickFailEmbed = new MessageEmbed()
+                .setColor('#d40000')
+                .setTitle('Authentication failure')
+                .setAuthor({
+                    name: 'Augur',
+                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+                    url: null,
+                })
+                .setDescription(`No ${newNick} on server: ${server}`)
+                .setTimestamp()
+                .setFooter({
+                    text: 'All information sourced from lodestone',
+                    iconURL: null,
+                });
+            await interaction.reply({
+                content: null,
+                embeds: [nickFailEmbed],
             });
+        } else {
+            const newNickEmbed = new MessageEmbed()
+                .setColor('#02d642')
+                .setTitle('Authentication success')
+                .setAuthor({
+                    name: 'Augur',
+                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+                    url: null,
+                })
+                .setDescription(
+                    `${newNick} found on server: ${server}`,
+                )
+                .setImage(charData.Avatar)
+                .setTimestamp()
+                .setFooter({
+                    text: 'All information sourced from lodestone',
+                    iconURL: null,
+                });
+            await interaction.reply({
+                content: null,
+                embeds: [newNickEmbed],
+            });
+            try {
+                await interaction.member.setNickname(newNick);
+            } catch (error) {
+                console.log(error);
+                await interaction.editReply({
+                    content: 'Error changing nickname, are you an admin?',
+                });
+            }
+        }
     },
 };
