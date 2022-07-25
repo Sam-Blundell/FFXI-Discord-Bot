@@ -11,6 +11,14 @@ const client = new Client({
         Intents.FLAGS.GUILD_MEMBERS,
         // Intents.FLAGS.GUILD_MESSAGES
     ],
+    presence: {
+        activities: [
+            {
+                name: 'you',
+                type: 'WATCHING',
+            },
+        ],
+    },
 });
 
 // collection utility class from discord.js extends JS Map class
@@ -43,7 +51,7 @@ client.on('interactionCreate', async (interaction) => {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
-        await interaction.reply(
+        await interaction.editReply(
             {
                 content: 'There was an error while executing this command!',
                 ephemeral: true,
