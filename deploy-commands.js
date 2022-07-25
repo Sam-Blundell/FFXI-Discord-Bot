@@ -11,6 +11,11 @@ Object.values(commandFiles).forEach((commandFile) => {
 
 const rest = new REST({ version: '10' }).setToken(botToken);
 
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-    .then(() => console.log('successfully registed application commands.'))
-    .catch(console.error);
+try {
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+        body: commands,
+    });
+    console.log('successfully registed application commands.');
+} catch (error) {
+    console.error(error);
+}

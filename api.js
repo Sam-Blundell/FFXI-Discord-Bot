@@ -5,6 +5,7 @@ const xivApi = axios.create({
     baseURL: 'https://xivapi.com/',
 });
 
+// Promise-chain syntax is preferred here.
 const getCharacter = (name, server) => xivApi.get('character/search', {
     params: {
         // eslint-disable-next-line camelcase
