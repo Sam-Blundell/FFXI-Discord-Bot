@@ -5,7 +5,12 @@ import { serverCaseCheck } from '../utils/serverCaseCheck.js';
 import rolesConfig from '../configs/rolesConfig.js';
 const { newbie } = rolesConfig;
 
-// TODO: add colour variables.
+const failRed = '#d40000';
+const successGreen = '#02d642';
+const authorObj = {
+    name: 'Augur',
+    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+};
 
 export default {
     data: new SlashCommandBuilder()
@@ -21,7 +26,7 @@ export default {
         // TODO: change this to use the built in permission system.
         if (!interaction.member.roles.cache.has(newbie)) {
             const notNewUserEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle('Only new members can use this command')
                 .setTimestamp();
             await interaction.reply({
@@ -36,7 +41,7 @@ export default {
         const server = serverCaseCheck(serverArg);
         if (!server) {
             const unknownServerEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle(`Invalid server name: ${serverArg}`)
                 .setTimestamp();
             await interaction.reply({
@@ -49,41 +54,25 @@ export default {
         const charData = await getCharacter(newNick, server);
         if (!charData) {
             const nickFailEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle('Authentication failure')
-                .setAuthor({
-                    name: 'Augur',
-                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                    url: null,
-                })
+                .setAuthor(authorObj)
                 .setDescription(`No ${newNick} on server: ${server}`)
                 .setTimestamp()
-                .setFooter({
-                    text: 'All information sourced from lodestone',
-                    iconURL: null,
-                });
+                .setFooter({ text: 'All information sourced from lodestone' });
             await interaction.reply({
                 content: null,
                 embeds: [nickFailEmbed],
             });
         } else {
             const newNickEmbed = new MessageEmbed()
-                .setColor('#02d642')
+                .setColor(successGreen)
                 .setTitle('Authentication success')
-                .setAuthor({
-                    name: 'Augur',
-                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                    url: null,
-                })
-                .setDescription(
-                    `${newNick} found on server: ${server}`,
-                )
+                .setAuthor(authorObj)
+                .setDescription(`${newNick} found on server: ${server}`)
                 .setImage(charData.Avatar)
                 .setTimestamp()
-                .setFooter({
-                    text: 'All information sourced from lodestone',
-                    iconURL: null,
-                });
+                .setFooter({ text: 'All information sourced from lodestone' });
             await interaction.reply({
                 content: null,
                 embeds: [newNickEmbed],
