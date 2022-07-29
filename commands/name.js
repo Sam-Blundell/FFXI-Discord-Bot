@@ -11,8 +11,6 @@ const authorObj = {
     iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
 };
 
-// TODO: All replies should be mentions or @s
-
 export default {
     data: new SlashCommandBuilder()
         .setName('name')
@@ -33,21 +31,26 @@ export default {
             const notNewUserEmbed = new EmbedBuilder()
                 .setColor(failRed)
                 .setTitle('Only new members can use this command')
+                .setAuthor(authorObj)
+                .setDescription('If you\'re having trouble with our bot please @ Jack or Adrian for assistance')
                 .setTimestamp();
             await interaction.editReply({
-                content: null,
+                content: `${interaction.user}`,
                 embeds: [notNewUserEmbed],
             });
             return;
         }
+
         const newNick = interaction.options.getString('nickname');
         const serverArg = interaction.options.getString('server');
-
         const server = serverCaseCheck(serverArg);
+
         if (!server) {
             const unknownServerEmbed = new EmbedBuilder()
                 .setColor(failRed)
                 .setTitle(`Invalid server name: ${serverArg}`)
+                .setAuthor(authorObj)
+                .setDescription('Please try again, or if you\'re having trouble with our bot please @ Jack or Adrian for assistance')
                 .setTimestamp();
             await interaction.editReply({
                 content: null,
@@ -62,7 +65,7 @@ export default {
                 .setColor(failRed)
                 .setTitle('Authentication failure')
                 .setAuthor(authorObj)
-                .setDescription(`No ${newNick} on server: ${server}`)
+                .setDescription(`Lodestone can't find a player named ${newNick} on server: ${server}\nPlease try again or @ Jack or Adrian for assistance.`)
                 .setTimestamp()
                 .setFooter({ text: 'All information sourced from lodestone' });
             await interaction.editReply({
@@ -87,7 +90,7 @@ export default {
             } catch (error) {
                 console.log('NameCommandError:\n', error, '\n');
                 await interaction.followUp({
-                    content: 'There was an error when Augur tried to change your nickname.\nThis is usually caused by someone with elevated server permissions attempting to use the /name command.\nAre you an admin?',
+                    content: 'There was an error when Augur tried to change your nickname.\nThis is usually caused by someone with elevated server permissions attempting to use the /name command.\nAre you an admin?\nPlease @ Jack or Adrian for assistance.',
                 });
             }
         }

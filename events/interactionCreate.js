@@ -6,11 +6,8 @@ const { generalChannel } = channelsConfig;
 export default {
     name: 'interactionCreate',
     async execute (interaction) {
-        const {
-            user: { tag = 'usertagnotfound' },
-            channel: { name = 'channelnotfound' },
-        } = interaction;
-        console.log(`${tag} in #${name} triggered an interaction`);
+        const { user, channel } = interaction;
+        console.log(`${user.tag} in #${channel.name} triggered an interaction`);
 
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands
@@ -41,11 +38,10 @@ export default {
                 await userRoles.add(rolesConfig[customId]);
                 await interaction.guild.channels.cache.get(generalChannel)
                     .send({
-                        content: `${nickname} has joined as a new ${customId}.`,
+                        content: `${interaction.member} has joined as a new ${customId}.`,
                     });
             }
-        } else {
-            return;
         }
+        return;
     },
 };

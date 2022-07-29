@@ -7,7 +7,6 @@ const { newbieChannel } = channelsConfig;
 export default {
     name: 'guildMemberUpdate',
     async execute (oldMember, newMember) {
-        const usrNm = newMember.nickname;
         if (!newMember.roles.cache.has(newbie) || newMember.nickname === null) {
             return;
         }
@@ -25,7 +24,7 @@ export default {
 
         await newMember.guild.channels.cache.get(newbieChannel)
             .send({
-                content: `Thanks ${usrNm}, so are you a member of Omen or just a friend?`,
+                content: `Thanks ${newMember}, so are you a member of Omen or just a friend?`,
                 components: [row],
             });
     },
