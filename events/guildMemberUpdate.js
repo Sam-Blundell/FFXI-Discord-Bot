@@ -14,11 +14,11 @@ export default {
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('memberrole')
+                    .setCustomId('member')
                     .setLabel('Member')
                     .setStyle(ButtonStyle.Primary),
                 new ButtonBuilder()
-                    .setCustomId('friendrole')
+                    .setCustomId('friend')
                     .setLabel('Friend')
                     .setStyle(ButtonStyle.Success),
             );

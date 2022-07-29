@@ -36,26 +36,4 @@ Object.values(eventFiles).forEach((eventFile) => {
     }
 });
 
-// Listen for interactions, fire the appropriate event
-// or handle the appropriate error
-client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
-
-    const command = client.commands.get(interaction.commandName);
-    if (!command) return;
-
-    try {
-        await command.execute(interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.editReply(
-            {
-                content: 'There was an error while executing this command!',
-                ephemeral: true,
-            },
-        );
-    }
-});
-
-// Start point
 client.login(botToken);
