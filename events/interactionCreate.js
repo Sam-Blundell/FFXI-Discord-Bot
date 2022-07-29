@@ -1,52 +1,51 @@
 import rolesConfig from '../configs/rolesConfig.js';
 import channelsConfig from '../configs/channelsConfig.js';
-const { newbie, member, friend } = rolesConfig;
+const { newbie } = rolesConfig;
 const { generalChannel } = channelsConfig;
 
 export default {
     name: 'interactionCreate',
-    execute (interaction) {
+    async execute (interaction) {
         const {
             user: { tag = 'usertagnotfound' },
             channel: { name = 'channelnotfound' },
         } = interaction;
         console.log(`${tag} in #${name} triggered an interaction`);
 
-        if (!interaction.isButton()) {
-            return;
-        }
+        if (interaction.isChatInputCommand()) {
+            const command = interaction.client.commands
+                .get(interaction.commandName);
+            if (!command) return;
 
-        const { customId, member: { nickname } } = interaction;
+            try {
+                await command.execute(interaction);
+            } catch (error) {
+                console.error(error);
+                await interaction.editReply(
+                    {
+                        content: 'There was an error while executing this command!',
+                        ephemeral: true,
+                    },
+                );
+            }
+        } else if (interaction.isButton()) {
+            const { customId, member: { nickname } } = interaction;
+            const { roles: userRoles } = interaction.member;
 
-        if (
-            (customId === 'memberrole' || customId === 'friendrole')
-			&& interaction.member.roles.cache.has(newbie)
-        ) {
-            if (customId === 'memberrole') {
-                interaction.update({
-                    content: `Adding ${nickname} to server as a member...`,
+            if ( rolesConfig[customId] && userRoles.cache.has(newbie) ) {
+                await interaction.update({
+                    content: `Adding ${nickname} to server as a ${customId}...`,
                     components: [],
                 });
-                interaction.member.roles.remove(newbie);
-                interaction.member.roles.add(member);
-
-                interaction.guild.channels.cache.get(generalChannel)
+                await userRoles.remove(newbie);
+                await userRoles.add(rolesConfig[customId]);
+                await interaction.guild.channels.cache.get(generalChannel)
                     .send({
-                        content: `${nickname} has joined as a new member.`,
-                    });
-            } else if (customId === 'friendrole') {
-                interaction.update({
-                    content: `Adding ${nickname} to server as a friend...`,
-                    components: [],
-                });
-                interaction.member.roles.remove(newbie);
-                interaction.member.roles.add(friend);
-
-                interaction.guild.channels.cache.get(generalChannel)
-                    .send({
-                        content: `${nickname} has joined as a new friend.`,
+                        content: `${nickname} has joined as a new ${customId}.`,
                     });
             }
+        } else {
+            return;
         }
     },
 };
