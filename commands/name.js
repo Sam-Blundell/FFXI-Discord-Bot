@@ -5,26 +5,37 @@ import { serverCaseCheck } from '../utils/serverCaseCheck.js';
 import rolesConfig from '../configs/rolesConfig.js';
 const { newbie } = rolesConfig;
 
-// TODO: add colour variables.
+const failRed = '#d40000';
+const successGreen = '#02d642';
+const authorObj = {
+    name: 'Augur',
+    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
+};
+
+// TODO: All replies should be mentions or @s
 
 export default {
     data: new SlashCommandBuilder()
         .setName('name')
         .setDescription('Checks lodestone and sets your discord nickname')
-        .addStringOption((option) => option.setName('nickname')
+        .addStringOption((option) => option
+            .setName('nickname')
             .setDescription('your in-game username')
             .setRequired(true))
-        .addStringOption((option) => option.setName('server')
+        .addStringOption((option) => option
+            .setName('server')
             .setDescription('the server your character is on')
             .setRequired(true)),
     async execute (interaction) {
-        // TODO: change this to use the built in permission system.
+        /* NOTE: Use deferReply here to keep the interaction token alive for
+            more than three seconds in case the API response is slow. */
+        await interaction.deferReply();
         if (!interaction.member.roles.cache.has(newbie)) {
             const notNewUserEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle('Only new members can use this command')
                 .setTimestamp();
-            await interaction.reply({
+            await interaction.editReply({
                 content: null,
                 embeds: [notNewUserEmbed],
             });
@@ -36,10 +47,10 @@ export default {
         const server = serverCaseCheck(serverArg);
         if (!server) {
             const unknownServerEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle(`Invalid server name: ${serverArg}`)
                 .setTimestamp();
-            await interaction.reply({
+            await interaction.editReply({
                 content: null,
                 embeds: [unknownServerEmbed],
             });
@@ -49,51 +60,35 @@ export default {
         const charData = await getCharacter(newNick, server);
         if (!charData) {
             const nickFailEmbed = new MessageEmbed()
-                .setColor('#d40000')
+                .setColor(failRed)
                 .setTitle('Authentication failure')
-                .setAuthor({
-                    name: 'Augur',
-                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                    url: null,
-                })
+                .setAuthor(authorObj)
                 .setDescription(`No ${newNick} on server: ${server}`)
                 .setTimestamp()
-                .setFooter({
-                    text: 'All information sourced from lodestone',
-                    iconURL: null,
-                });
-            await interaction.reply({
+                .setFooter({ text: 'All information sourced from lodestone' });
+            await interaction.editReply({
                 content: null,
                 embeds: [nickFailEmbed],
             });
         } else {
             const newNickEmbed = new MessageEmbed()
-                .setColor('#02d642')
+                .setColor(successGreen)
                 .setTitle('Authentication success')
-                .setAuthor({
-                    name: 'Augur',
-                    iconURL: 'https://i.imgur.com/KpGs20S.jpeg',
-                    url: null,
-                })
-                .setDescription(
-                    `${newNick} found on server: ${server}`,
-                )
+                .setAuthor(authorObj)
+                .setDescription(`${newNick} found on server: ${server}`)
                 .setImage(charData.Avatar)
                 .setTimestamp()
-                .setFooter({
-                    text: 'All information sourced from lodestone',
-                    iconURL: null,
-                });
-            await interaction.reply({
+                .setFooter({ text: 'All information sourced from lodestone' });
+            await interaction.editReply({
                 content: null,
                 embeds: [newNickEmbed],
             });
             try {
                 await interaction.member.setNickname(newNick);
             } catch (error) {
-                console.log(error);
-                await interaction.editReply({
-                    content: 'Error changing nickname, are you an admin?',
+                console.log('NameCommandError:\n', error, '\n');
+                await interaction.followUp({
+                    content: 'There was an error when Augur tried to change your nickname.\nThis is usually caused by someone with elevated server permissions attempting to use the /name command.\nAre you an admin?',
                 });
             }
         }
