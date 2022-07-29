@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import rolesConfig from '../configs/rolesConfig.js';
 import channelsConfig from '../configs/channelsConfig.js';
 const { newbie } = rolesConfig;
@@ -9,7 +9,7 @@ const { newbieChannel } = channelsConfig;
 export default {
     name: 'guildMemberAdd',
     async execute (interaction) {
-        const newMemberJoin = new MessageEmbed()
+        const newMemberJoin = new EmbedBuilder()
             .setColor('#02d642')
             .setTitle(`Hi ${interaction.user.username}! Welcome to the server.`)
             .setAuthor({
