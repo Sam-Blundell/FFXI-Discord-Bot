@@ -1,6 +1,5 @@
 import { getCharacter } from '../api.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { serverCaseCheck } from '../utils/serverCaseCheck.js';
 import rolesConfig from '../configs/rolesConfig.js';
 const { newbie } = rolesConfig;
@@ -31,7 +30,7 @@ export default {
             more than three seconds in case the API response is slow. */
         await interaction.deferReply();
         if (!interaction.member.roles.cache.has(newbie)) {
-            const notNewUserEmbed = new MessageEmbed()
+            const notNewUserEmbed = new EmbedBuilder()
                 .setColor(failRed)
                 .setTitle('Only new members can use this command')
                 .setTimestamp();
@@ -46,7 +45,7 @@ export default {
 
         const server = serverCaseCheck(serverArg);
         if (!server) {
-            const unknownServerEmbed = new MessageEmbed()
+            const unknownServerEmbed = new EmbedBuilder()
                 .setColor(failRed)
                 .setTitle(`Invalid server name: ${serverArg}`)
                 .setTimestamp();
@@ -59,7 +58,7 @@ export default {
 
         const charData = await getCharacter(newNick, server);
         if (!charData) {
-            const nickFailEmbed = new MessageEmbed()
+            const nickFailEmbed = new EmbedBuilder()
                 .setColor(failRed)
                 .setTitle('Authentication failure')
                 .setAuthor(authorObj)
@@ -71,7 +70,7 @@ export default {
                 embeds: [nickFailEmbed],
             });
         } else {
-            const newNickEmbed = new MessageEmbed()
+            const newNickEmbed = new EmbedBuilder()
                 .setColor(successGreen)
                 .setTitle('Authentication success')
                 .setAuthor(authorObj)

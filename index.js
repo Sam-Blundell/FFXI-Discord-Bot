@@ -1,4 +1,4 @@
-import { Client, Collection, Intents } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import commandFiles from './commands/index.js';
 import eventFiles from './events/index.js';
 import botConfig from './configs/botConfig.js';
@@ -6,10 +6,8 @@ const { botToken } = botConfig;
 
 const client = new Client({
     intents: [
-        Intents.FLAGS.GUILDS,
-        // Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.GUILD_MEMBERS,
-        // Intents.FLAGS.GUILD_MESSAGES
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
     ],
     presence: {
         activities: [
@@ -41,10 +39,9 @@ Object.values(eventFiles).forEach((eventFile) => {
 // Listen for interactions, fire the appropriate event
 // or handle the appropriate error
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
 
     const command = client.commands.get(interaction.commandName);
-
     if (!command) return;
 
     try {
