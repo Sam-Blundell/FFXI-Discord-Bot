@@ -23,6 +23,10 @@ export default {
 			&& interaction.member.roles.cache.has(newbie)
         ) {
             if (customId === 'memberrole') {
+                interaction.update({
+                    content: `Adding ${nickname} to server as a member...`,
+                    components: [],
+                });
                 interaction.member.roles.remove(newbie);
                 interaction.member.roles.add(member);
 
@@ -31,6 +35,10 @@ export default {
                         content: `${nickname} has joined as a new member.`,
                     });
             } else if (customId === 'friendrole') {
+                interaction.update({
+                    content: `Adding ${nickname} to server as a friend...`,
+                    components: [],
+                });
                 interaction.member.roles.remove(newbie);
                 interaction.member.roles.add(friend);
 
