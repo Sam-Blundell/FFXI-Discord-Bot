@@ -38,7 +38,7 @@ export default {
                 await userRoles.add(rolesConfig[customId]);
                 await interaction.guild.channels.cache.get(generalChannel)
                     .send({
-                        content: `${nickname} has joined as a new ${customId}.`,
+                        content: `${interaction.member} has joined as a new ${customId}.`,
                     });
             }
         }
