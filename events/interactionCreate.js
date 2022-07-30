@@ -28,17 +28,26 @@ export default {
         } else if (interaction.isButton()) {
             const { customId, member: { nickname } } = interaction;
             const { roles: userRoles } = interaction.member;
+            const { id, role } = JSON.parse(customId);
 
-            if ( rolesConfig[customId] && userRoles.cache.has(newbie) ) {
+            if (id !== interaction.user.id) {
+                await interaction.reply({
+                    content: 'Only the person who generated these buttons can use them.\nIf you need to set your own nickname and server role please use the /name command.',
+                    ephemeral: true,
+                });
+                return;
+            }
+
+            if ( rolesConfig[role] && userRoles.cache.has(newbie) ) {
                 await interaction.update({
-                    content: `Adding ${nickname} to server as a ${customId}...`,
+                    content: `Adding ${nickname} to server as a ${role}...`,
                     components: [],
                 });
                 await userRoles.remove(newbie);
-                await userRoles.add(rolesConfig[customId]);
+                await userRoles.add(rolesConfig[role]);
                 await interaction.guild.channels.cache.get(generalChannel)
                     .send({
-                        content: `${interaction.member} has joined as a new ${customId}.`,
+                        content: `${interaction.member} has joined as a new ${role}.`,
                     });
             }
         }
