@@ -10,14 +10,22 @@ export default {
         if (!newMember.roles.cache.has(newbie) || newMember.nickname === null) {
             return;
         }
+        const memberResponse = JSON.stringify({
+            id: newMember.id,
+            role: 'member',
+        });
+        const friendResponse = JSON.stringify({
+            id: newMember.id,
+            role: 'friend',
+        });
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('member')
+                    .setCustomId(memberResponse)
                     .setLabel('Member')
                     .setStyle(ButtonStyle.Primary),
                 new ButtonBuilder()
-                    .setCustomId('friend')
+                    .setCustomId(friendResponse)
                     .setLabel('Friend')
                     .setStyle(ButtonStyle.Success),
             );
